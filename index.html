@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HyunJong Park — Biomedical Engineer</title>
-    <link rel="icon" type="image/svg+xml"
-        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%232563EB'/><path d='M15 50h15l10-30 10 60 10-30h10' fill='none' stroke='%23ffffff' stroke-width='8' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%232563EB'/><path d='M 35 20 Q 65 50 35 80' fill='none' stroke='%23ffffff' stroke-width='8' stroke-linecap='round'/><path d='M 65 20 Q 35 50 65 80' fill='none' stroke='%23ffffff' stroke-width='8' stroke-linecap='round'/><line x1='38' y1='35' x2='62' y2='35' stroke='%23ffffff' stroke-width='8'/><line x1='45' y1='50' x2='55' y2='50' stroke='%23ffffff' stroke-width='8'/><line x1='38' y1='65' x2='62' y2='65' stroke='%23ffffff' stroke-width='8'/></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -360,23 +359,23 @@
                 </div>`).join(''));
 
             hm('work-list', D.work.map(w => `
-                <div class="timeline-item">
-                    <div class="timeline-left"><div class="timeline-period">${w.period}</div></div>
-                    <div class="timeline-right">
-                        <div class="timeline-title">${t(w.role)}</div>
-                        <div class="timeline-sub">${t(w.org)}</div>
-                        <div class="timeline-desc">${t(w.desc)}</div>
+                <div class="project-entry">
+                    <div class="project-header">
+                        <div style="font-size:10px; color:var(--accent); font-weight:700; text-transform:uppercase; margin-bottom:4px;">${w.period}</div>
+                        <div class="project-name">${t(w.role)}</div>
+                        <div style="font-size:13px; color:var(--ink-faint); margin-top:4px; font-weight:500;">${t(w.org)}</div>
                     </div>
+                    <div class="project-body"><div class="project-summary">${t(w.desc)}</div></div>
                 </div>`).join(''));
 
             hm('research-list', D.research.map(r => `
-                <div class="timeline-item">
-                    <div class="timeline-left"><div class="timeline-period">${r.period}</div></div>
-                    <div class="timeline-right">
-                        <div class="timeline-title">${t(r.role)}</div>
-                        <div class="timeline-sub">${t(r.org)}</div>
-                        <div class="timeline-desc">${t(r.desc)}</div>
+                <div class="project-entry">
+                    <div class="project-header">
+                        <div style="font-size:10px; color:var(--accent); font-weight:700; text-transform:uppercase; margin-bottom:4px;">${r.period}</div>
+                        <div class="project-name">${t(r.role)}</div>
+                        <div style="font-size:13px; color:var(--ink-faint); margin-top:4px; font-weight:500;">${t(r.org)}</div>
                     </div>
+                    <div class="project-body"><div class="project-summary">${t(r.desc)}</div></div>
                 </div>`).join(''));
 
             hm('project-list', D.projects.map(p => `
@@ -389,13 +388,13 @@
                 </div>`).join(''));
             
             hm('leadership-list', D.leadership.map(l => `
-                <div class="timeline-item">
-                    <div class="timeline-left"><div class="timeline-period">${l.period}</div></div>
-                    <div class="timeline-right">
-                        <div class="timeline-title">${t(l.role)}</div>
-                        <div class="timeline-sub">${t(l.org)}</div>
-                        <div class="timeline-desc">${t(l.desc)}</div>
+                <div class="project-entry">
+                    <div class="project-header">
+                        <div style="font-size:10px; color:var(--accent); font-weight:700; text-transform:uppercase; margin-bottom:4px;">${l.period}</div>
+                        <div class="project-name">${t(l.role)}</div>
+                        <div style="font-size:13px; color:var(--ink-faint); margin-top:4px; font-weight:500;">${t(l.org)}</div>
                     </div>
+                    <div class="project-body"><div class="project-summary">${t(l.desc)}</div></div>
                 </div>`).join(''));
 
             hm('skill-list', D.skills[L].map(s => {
