@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HyunJong Park — Biomedical Engineer</title>
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%232563EB'/><path d='M15 50h15l10-30 10 60 10-30h10' fill='none' stroke='%23ffffff' stroke-width='8' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ── 컬러 및 기본 변수 세팅 ── */
+        :root {
+            --cream: #F8F5EF; --ink: #1A1A1A; --ink-light: #4A4A4A; --ink-faint: #7A7A7A;
+            --accent: #2563EB; --accent-light: #DBEAFE; --border: #E2DDD5; --card: #FFFFFF;
+            --card-hover: rgba(0, 0, 0, .03); --sb-bg: #1A1A1A; --sb-text: #F0EDE7;
+            --sb-muted: #888; --sb-accent: #7CB9FF; --sw: 260px;
+            --fb: 'DM Sans', 'Noto Sans KR', system-ui, sans-serif; --fm: 'JetBrains Mono', monospace;
+            --ease: cubic-bezier(.25, .46, .45, .94);
+        }
+        [data-theme="dark"] {
+            --cream: #181A1B; --ink: #E8E4DC; --ink-light: #C5C0B7; --ink-faint: #9A948C;
+            --accent: #60A5FA; --accent-light: rgba(96, 165, 250, .15); --border: #3A352F;
+            --card: #212322; --card-hover: rgba(255, 255, 255, .03); --sb-bg: #111312;
+            --sb-text: #E8E4DC; --sb-muted: #777; --sb-accent: #93C5FD;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0 }
+        html { scroll-behavior: smooth }
+        body { font-family: var(--fb); background: var(--cream); color: var(--ink); line-height: 1.7; font-size: 15px; overflow-x: hidden; word-break: keep-all; transition: background .25s, color .25s }
+        
+        /* ── TOP BAR (언어/테마 스위치) ── */
+        .top-bar { position: absolute; top: 20px; right: 24px; z-index: 1000; display: flex; align-items: center; gap: 12px }
+        .toggle-group { display: flex; background: rgba(255, 255, 255, .8); backdrop-filter: blur(10px); border: 1px solid var(--border); border-radius: 100px; padding: 4px; box-shadow: 0 2px 10px rgba(0, 0, 0, .05) }
+        [data-theme="dark"] .toggle-group { background: rgba(30, 32, 33, .8) }
+        .toggle-btn { background: transparent; border: none; padding: 5px 12px; font-family: var(--fb); font-size: 12.5px; font-weight: 600; color: var(--ink-faint); border-radius: 100px; cursor: pointer; transition: all .2s }
+        .toggle-btn.active { background: var(--ink); color: var(--cream); box-shadow: 0 2px 8px rgba(0, 0, 0, .15) }
+        [data-theme="dark"] .toggle-btn.active { background: var(--accent); color: #fff }
+        
+        /* ── SIDEBAR ── */
+        .sidebar { position: fixed; top: 0; left: 0; width: var(--sw); height: 100vh; background: var(--sb-bg); color: var(--sb-text); z-index: 100; overflow-y: auto }
+        .sidebar-inner { padding: 40px 24px; display: flex; flex-direction: column; min-height: 100% }
+        .profile-wrap { margin-bottom: 28px }
+        .profile-img-wrap { position: relative; width: 80px; height: 80px; margin-bottom: 16px }
+        .profile-img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; display: block; border: 2px solid rgba(255, 255, 255, .15) }
+        .profile-name { font-family: var(--fb); font-size: 1.3rem; color: #fff; line-height: 1.2; margin-bottom: 4px; font-weight: 700 }
+        .profile-role { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--sb-muted); font-weight: 500 }
+        
+        /* ── CONTACT ── */
+        .contact-block { margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid rgba(255, 255, 255, .08) }
+        .contact-item { display: flex; align-items: center; gap: 8px; font-size: 11px; color: rgba(240, 237, 231, .65); margin-bottom: 10px; text-decoration: none; transition: color .2s }
+        .contact-item:hover { color: var(--sb-accent) }
+        
+        /* 링크드인 아이콘 크기 및 정렬 최적화 */
+        .linkedin-link { 
+            display: flex; 
+            align-items: center; 
+            text-decoration: none; 
+            color: rgba(240, 237, 231, .65); 
+            transition: color .2s ease; 
+            margin-top: 10px; 
+            font-size: 11px; 
+            font-weight: 500;
+            line-height: 1;
+        }
+        .linkedin-link:hover { color: var(--sb-accent); }
+        .linkedin-icon { width: 14px; height: 14px; margin-right: 8px; flex-shrink: 0; display: block; }
+        .linkedin-icon path { fill: rgba(240, 237, 231, .65); transition: fill 0.2s ease; }
+        .linkedin-link:hover .linkedin-icon path { fill: #0077B5; }
+
+        /* ── NAVIGATION ── */
+        .sidebar-nav { display: flex; flex-direction: column; gap: 2px }
+        .nav-link { display: block; padding: 7px 12px; font-size: 12.5px; font-weight: 500; color: rgba(240, 237, 231, .5); text-decoration: none; border-radius: 6px; transition: all .2s var(--ease) }
+        .nav-link:hover, .nav-link.active { color: var(--sb-accent); background: rgba(255, 255, 255, .05) }
+        
+        /* ── MAIN LAYOUT ── */
+        .main-content { margin-left: var(--sw); min-height: 100vh; padding-bottom: 60px }
+        .hero-section { padding: 72px 64px 56px; border-bottom: 1px solid var(--border) }
+        .section-label { margin-bottom: 20px }
+        .label-text { font-family: var(--fb); font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); background: var(--accent-light); padding: 4px 10px; border-radius: 4px; display: inline-block }
+        .hero-text { font-family: var(--fb); font-size: 1.15rem; line-height: 1.85; color: var(--ink); max-width: 680px; margin-bottom: 28px }
+        .content-section { padding: 52px 64px; border-bottom: 1px solid var(--border) }
+        .section-header { display: flex; align-items: center; gap: 20px; margin-bottom: 36px }
+        .section-title { font-family: var(--fb); font-size: 1.5rem; color: var(--ink); font-weight: 700; white-space: nowrap }
+        .section-line { flex: 1; height: 1px; background: linear-gradient(to right, var(--border) 0%, transparent 100%) }
+        
+        /* ── TIMELINE ── */
+        .timeline-item { display: grid; grid-template-columns: 180px 1fr; gap: 0 28px; padding: 24px 0; border-bottom: 1px solid var(--border); position: relative }
+        .timeline-item:last-child { border-bottom: none }
+        .timeline-period { font-family: var(--fm); font-size: 10.5px; color: var(--ink-faint) }
+        .timeline-title { font-weight: 600; font-size: 14.5px; color: var(--ink); margin-bottom: 4px }
+        .timeline-sub { font-size: 13px; color: var(--ink-light); margin-bottom: 8px; font-weight: 500 }
+        
+        /* ── BULLET LIST STYLING (For Detailed Contents) ── */
+        .resume-list {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 10px;
+            margin-bottom: 0;
+        }
+        .resume-list li {
+            position: relative;
+            padding-left: 16px;
+            margin-bottom: 8px;
+            font-size: 13.5px;
+            line-height: 1.6;
+            color: var(--ink-light);
+        }
+        .resume-list li:last-child { margin-bottom: 0; }
+        .resume-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        /* ── SKILLS ── */
+        .skill-list { display: flex; flex-direction: column }
+        .skill-item { display: grid; grid-template-columns: 130px 1fr; gap: 0 20px; padding: 16px 0; border-bottom: 1px solid var(--border) }
+        .skill-category { font-family: var(--fm); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); font-weight: 600 }
+        
+        /* ── PROJECTS ── */
+        .project-entry { border: 1px solid var(--border); border-radius: 14px; margin-bottom: 20px; background: var(--card); overflow: hidden; transition: box-shadow .25s var(--ease); }
+        .project-entry:hover { box-shadow: 0 8px 28px rgba(0, 0, 0, .08); }
+        .project-header { padding: 22px 28px; border-bottom: 1px solid var(--border) }
+        .project-name { font-size: 15.5px; font-weight: 700; color: var(--ink) }
+        .project-body { padding: 24px 28px }
+        
+        /* ── TAGS ── */
+        .tag { font-size: 11.5px; font-weight: 600; color: var(--ink-faint); border: 1px solid var(--border); border-radius: 100px; padding: 4px 12px }
+        
+        @media(max-width:720px) { .sidebar { display: none } .main-content { margin-left: 0 } .timeline-item { grid-template-columns: 1fr } .hero-section, .content-section { padding: 32px 20px } }
+    </style>
+</head>
+
+<body>
+    <div class="top-bar">
+        <div class="toggle-group">
+            <button id="theme-light" class="toggle-btn active">☀️ Light</button>
+            <button id="theme-dark" class="toggle-btn">🌙 Dark</button>
+        </div>
+        <div class="toggle-group">
+            <button id="lang-en" class="toggle-btn active">🇺🇸 EN</button>
+            <button id="lang-kr" class="toggle-btn">🇰🇷 KR</button>
+        </div>
+    </div>
+
+    <aside class="sidebar">
+        <div class="sidebar-inner">
+            <div class="profile-wrap">
+                <div class="profile-img-wrap">
+                    <div class="profile-img" style="background-color: #2563EB; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 24px;">HP</div>
+                </div>
+                <h1 id="name" class="profile-name">HyunJong Park</h1>
+                <p id="profile-role" class="profile-role">Biomedical Engineer</p>
+            </div>
+            <div class="contact-block">
+                <a href="mailto:hpark115@binghamton.edu" class="contact-item">✉ hpark115@binghamton.edu</a>
+                <div class="contact-item">✆ +1 (607) 222-3738</div>
+                
+                <a href="https://www.linkedin.com/in/harry-park-482698355/" target="_blank" class="linkedin-link">
+                    <svg class="linkedin-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                    </svg>
+                    <span>LinkedIn Profile</span>
+                </a>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#education" class="nav-link" data-en="Education" data-kr="학력 정보">Education</a>
+                <a href="#experience" class="nav-link" data-en="Experience" data-kr="업무 경험">Experience</a>
+                <a href="#research" class="nav-link" data-en="Research" data-kr="연구 경험">Research</a>
+                <a href="#projects" class="nav-link" data-en="Projects" data-kr="프로젝트">Projects</a>
+                <a href="#leadership" class="nav-link" data-en="Leadership" data-kr="리더십">Leadership</a>
+                <a href="#skills" class="nav-link" data-en="Skills" data-kr="보유 기술">Skills</a>
+            </nav>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <section class="hero-section">
+            <div class="section-label"><span id="label-about" class="label-text">About</span></div>
+            <p id="about-text" class="hero-text"></p>
+            <div class="hero-tags">
+                <span class="tag">Biomedical Devices</span>
+                <span class="tag">Gene Editing</span>
+                <span class="tag">Stem Cell Research</span>
+                <span class="tag">ECG Design</span>
+            </div>
+        </section>
+
+        <section id="education" class="content-section">
+            <div class="section-header"><h2 id="title-edu" class="section-title">Education</h2><div class="section-line"></div></div>
+            <div id="education-list" class="timeline"></div>
+        </section>
+
+        <section id="experience" class="content-section">
+            <div class="section-header"><h2 id="title-work" class="section-title">Professional Experience</h2><div class="section-line"></div></div>
+            <div id="work-list" class="timeline"></div>
+        </section>
+
+        <section id="research" class="content-section">
+            <div class="section-header"><h2 id="title-research" class="section-title">Research Experience</h2><div class="section-line"></div></div>
+            <div id="research-list" class="timeline"></div>
+        </section>
+
+        <section id="projects" class="content-section">
+            <div class="section-header"><h2 id="title-proj" class="section-title">Project Experience</h2><div class="section-line"></div></div>
+            <div id="project-list"></div>
+        </section>
+        
+        <section id="leadership" class="content-section">
+            <div class="section-header"><h2 id="title-leadership" class="section-title">Leadership Experience</h2><div class="section-line"></div></div>
+            <div id="leadership-list" class="timeline"></div>
+        </section>
+
+        <section id="skills" class="content-section">
+            <div class="section-header"><h2 id="title-skill" class="section-title">Technical Skills</h2><div class="section-line"></div></div>
+            <div id="skill-list" class="skill-list"></div>
+        </section>
+
+        <footer class="page-footer" style="padding: 40px 64px; font-size: 12px; color: var(--ink-faint);">
+            © 2026 HyunJong Park · Built with passion for Bio-Engineering
+        </footer>
+    </main>
+
+    <script>
+        // PDF의 모든 세부 사항을 담은 데이터 객체
+        const D = {
+            info: {
+                name: { en: "HyunJong Park", kr: "박현종" },
+                role: { en: "Biomedical Engineer", kr: "의공학 엔지니어" },
+                about: {
+                    en: "Aspiring Biomedical Engineer with a concentration in Devices & Instrumentations. Experienced in stem cell research, gene editing (CRISPR-Cas9), and medical device design. Proven leadership through military service and international research collaborations.",
+                    kr: "의료 기기 및 계측 분야를 전공하는 예비 의공학 엔지니어입니다. 줄기세포 연구, 유전자 가위(CRISPR-Cas9) 기술, 의료 기기 설계 분야의 실무 경험을 보유하고 있으며, 군 복무 및 국제 연구 협력을 통해 리더십을 증명해왔습니다."
+                }
+            },
+            education: [{
+                period: "Expected May 2027",
+                school: { en: "Binghamton University (SUNY)", kr: "뉴욕 주립대 빙엄턴 (SUNY)" },
+                degree: { en: "B.S. in Biomedical Engineering", kr: "의공학 학사" },
+                desc: { 
+                    en: "<strong style='color:var(--ink)'>Concentration:</strong> Biomedical Devices & Instrumentations<br><strong style='color:var(--ink)'>Relevant Coursework:</strong> Biomedical Modeling, Biomedical Instruments, Bioimaging, Biomechanics, Biothermodynamics, Biomaterials, Neuroengineering, Bioinformatics & Biostatistics, Bio-fluid Mechanics, Cell Biology, Electric Circuits", 
+                    kr: "<strong style='color:var(--ink)'>세부 전공:</strong> 의료 기기 및 계측<br><strong style='color:var(--ink)'>관련 교과목:</strong> 의생명 모델링, 의생명 기기, 바이오 이미징, 생물 역학, 생물 열역학, 생체 재료, 신경 공학, 생물 정보학 및 생물 통계학, 생물 유체 역학, 세포 생물학, 전기 회로" 
+                }
+            }],
+            work: [
+                {
+                    period: "Sep 2024 – Jan 2025",
+                    role: { en: "Veterinary Department Intern", kr: "수의학 부문 인턴" },
+                    org: { en: "UAE Biotech Research Center | Abu Dhabi, UAE", kr: "UAE 바이오테크 연구 센터 | 아랍에미리트 아부다비" },
+                    desc: { 
+                        en: "<ul class='resume-list'><li>Isolated cells from biopsy-derived equine and camel tissues and established primary cultures to expand mesenchymal stem cells and adipose-derived stem cells in support of SCNT donor-cell preparation and cloning-related reproductive research.</li><li>Maintained donor cell cultures using aseptic technique, controlled passaging schedules, and routine monitoring to ensure experimental consistency for downstream assays and procedures.</li><li>Supported ovum pick-up (OPU), in vitro maturation (IVM), and embryo transfer workflows by preparing media/materials and coordinating time-sensitive sample handling and documentation.</li><li>Managed LN2 cryostorage for biological samples, including tank monitoring, inventory management, and sample retrieval to preserve cell integrity and ensure traceable access to cryopreserved stocks.</li><li>Conducted on-site research support in Argentina as part of an international collaboration with Argentina and UAE royal family.</li></ul>", 
+                        kr: "<ul class='resume-list'><li>조직 생검을 통해 채취한 말과 낙타 조직에서 세포를 분리하고 1차 배양을 확립하여 SCNT 공여 세포 준비 및 복제 관련 생식 연구를 지원하기 위해 중간엽 줄기세포 및 지방 유래 줄기세포를 확장함.</li><li>무균 술기를 사용하여 공여 세포 배양을 유지하고, 계대 배양 일정을 제어하며 지속적인 모니터링을 통해 후속 분석 및 절차의 실험적 일관성을 보장함.</li><li>매질/재료를 준비하고 시간에 민감한 샘플 처리 및 문서화를 조율하여 난자 채취(OPU), 체외 성숙(IVM) 및 배아 이식 워크플로우를 지원함.</li><li>생물학적 샘플을 위한 LN2 극저온 보관소를 관리하여 탱크 모니터링, 재고 관리 및 샘플 회수를 통해 세포 무결성을 보존하고 극저온 보존 스톡에 대한 추적 가능한 접근을 보장함.</li><li>아르헨티나 및 UAE 왕실과의 국제적 협력의 일환으로 아르헨티나에서 현장 연구 지원을 수행함.</li></ul>" 
+                    }
+                },
+                {
+                    period: "May 2024 – Aug 2024",
+                    role: { en: "Corporate Strategy Team Intern", kr: "기업 전략팀 인턴" },
+                    org: { en: "Polestar Healthcare | Seoul, South Korea", kr: "폴스타 헬스케어 | 대한민국 서울" },
+                    desc: { 
+                        en: "<ul class='resume-list'><li>Conducted market research on Japan's teleradiology industry, analyzing market size, imaging equipment availability, and radiology workforce trends.</li><li>Developed Japan market entry scenarios for assessing regulatory feasibility under PMDA and operational readiness.</li><li>Researched Japanese PACS vendors and evaluated partnership versus independent expansion strategies.</li><li>Reviewed government-supported healthcare and digital health programs (KHIDI) for external funding opportunities.</li></ul>", 
+                        kr: "<ul class='resume-list'><li>일본의 원격 방사선 산업에 대한 시장 조사를 수행하여 시장 규모, 영상 장비 가용성 및 방사선 전문의 인력 동향을 분석함.</li><li>PMDA 하의 규제 타당성 및 운영 준비 상태를 평가하기 위한 일본 시장 진입 시나리오를 개발함.</li><li>일본 PACS 벤더를 조사하고 파트너십 구축 및 독자적 확장 전략의 장단점을 평가함.</li><li>외부 자금 조달 기회를 발굴하기 위해 정부 지원 헬스케어 및 디지털 헬스 프로그램(보건산업진흥원, KHIDI)을 검토함.</li></ul>" 
+                    }
+                }
+            ],
+            research: [
+                {
+                    period: "Feb 2025 – Present",
+                    role: { en: "Undergraduate Research Assistant", kr: "학부 연구 보조" },
+                    org: { en: "Binghamton University | New York, United States", kr: "빙엄턴 대학교 | 미국 뉴욕" },
+                    desc: { 
+                        en: "<ul class='resume-list'><li>Cultured adipose-derived mesenchymal stem cells and induced osteogenic differentiation, quantifying differentiation using an ALP activity assay to evaluate regenerative potential.</li><li>Designed and iterated a microfluidic cancer-on-a-chip device and transitioned well-plate co-culture protocols onto the chip platform to enable on-chip assays.</li><li>Prepared and maintained human hepatic, epithelial, cancer, and neural cell lines (C3A, BEAS-2B, MDA-MB-231, NHA) for co-culture and microphysiological system experiments.</li></ul>", 
+                        kr: "<ul class='resume-list'><li>지방 유래 중간엽 줄기세포를 배양하고 골 형성 분화를 유도하였으며, 재생 잠재력을 평가하기 위해 ALP 활성도 분석을 사용하여 분화를 정량화함.</li><li>미세유체 암-온-어-칩(cancer-on-a-chip) 장치를 설계 및 반복 개선하고 웰 플레이트 공동 배양 프로토콜을 칩 플랫폼으로 전환하여 온칩(on-chip) 분석을 가능하게 함.</li><li>공동 배양 및 미세 생리 시스템 실험을 위해 인간 간, 상피, 암 및 신경 세포주(C3A, BEAS-2B, MDA-MB-231, NHA)를 준비하고 유지 관리함.</li></ul>" 
+                    }
+                },
+                {
+                    period: "Jun 2025 – Aug 2025",
+                    role: { en: "Gene Editing Team Intern", kr: "유전자 편집팀 인턴" },
+                    org: { en: "SungKyunKwan University | Suwon, South Korea", kr: "성균관대학교 | 대한민국 수원" },
+                    desc: { 
+                        en: "<ul class='resume-list'><li>Performed VLP-mediated CRISPR-Cas9 knockout in HEK293 and Neuro2a cells. Adjusted delivery conditions to improve editing outcomes.</li><li>Verified editing results using PCR and gel electrophoresis and measured downstream effects with ELISA to assess target protein-level changes versus controls.</li><li>Synthesized and purified sgRNA and applied CIP treatment to improve RNA quality for downstream experiments.</li><li>Prepared competent cells, amplified plasmids, and completed midiprep purification to generate high-quality constructs for gene-editing workflows.</li></ul>", 
+                        kr: "<ul class='resume-list'><li>HEK293 및 Neuro2a 세포에서 VLP 매개 CRISPR-Cas9 녹아웃을 수행함. 편집 결과를 개선하기 위해 전달 조건을 조정함.</li><li>PCR 및 겔 전기영동을 사용하여 편집 결과를 검증하고, 대조군 대비 표적 단백질 수준의 변화를 평가하기 위해 ELISA로 다운스트림 효과를 측정함.</li><li>sgRNA를 합성 및 정제하고 CIP 처리를 적용하여 후속 실험을 위한 RNA 품질을 개선함.</li><li>유전자 편집 워크플로우를 위한 고품질 구조체를 생성하기 위해 수용성 세포(competent cells)를 준비하고 플라스미드를 증폭시키며 미디프렙(midiprep) 정제를 완료함.</li></ul>" 
+                    }
+                }
+            ],
+            projects: [
+                {
+                    name: { en: "Electrocardiogram Design Project", kr: "심전도(ECG) 회로 설계 프로젝트" },
+                    kicker: { en: "Team Member · Aug 2025 - Dec 2025", kr: "팀원 · 2025년 8월 - 2025년 12월" },
+                    summary: {
+                        en: "<ul class='resume-list'><li>Built a two-lead ECG analog front-end on a breadboard, designing a differential amplifier and gain stages for low-amplitude biopotential acquisition, achieving an overall gain of ~1000.</li><li>Implemented an RC band-pass filter with cutoff frequencies of approximately 0.72 Hz (HPF) and 15.92 Hz (LPF) for baseline-drift removal and noise reduction, improving waveform interpretability on the oscilloscope.</li><li>Validated the end-to-end signal path using an Arduino and photocell for controlled signal testing before human measurements, then captured ECG waveforms from handheld electrodes with clearly observable R-peaks.</li></ul>",
+                        kr: "<ul class='resume-list'><li>브레드보드 상에 2리드 ECG 아날로그 프론트엔드를 구축하고, 저진폭 생체 전위 획득을 위한 차동 증폭기 및 증폭단을 설계하여 전체 약 1000배의 증폭도를 달성함.</li><li>베이스라인 드리프트 제거 및 노이즈 감소를 위해 약 0.72 Hz(HPF) 및 15.92 Hz(LPF)의 컷오프 주파수를 가진 RC 밴드패스 필터를 구현하여 오실로스코프에서의 파형 해석력을 향상시킴.</li><li>인체 측정 전 통제된 신호 테스트를 위해 Arduino와 포토셀을 사용하여 엔드투엔드 신호 경로를 검증한 후, 핸드헬드 전극에서 명확히 관찰 가능한 R-피크가 있는 ECG 파형을 캡처함.</li></ul>"
+                    }
+                }
+            ],
+            leadership: [
+                {
+                    period: "Sep 2022 – Mar 2024",
+                    role: { en: "Soldier", kr: "육군 병사" },
+                    org: { en: "513 Aviation Battalion | Pocheon, South Korea", kr: "제513항공대대 | 대한민국 포천" },
+                    desc: { 
+                        en: "<ul class='resume-list'><li>Led a team in an aviation battalion, managing personnel tasking and vehicle operations to support mission readiness.</li><li>Built a UAV tracking program adopted at the division level and recognized with a commendation from the division commander.</li></ul>", 
+                        kr: "<ul class='resume-list'><li>항공대대에서 임무 준비 태세를 지원하기 위해 인원 임무 부여 및 차량 운행을 관리하며 팀을 이끎.</li><li>사단급에서 채택된 UAV(무인항공기) 추적 프로그램을 개발하여 사단장 표창을 수여받음.</li></ul>" 
+                    }
+                }
+            ],
+            skills: {
+                en: [
+                    "Laboratory Techniques: Light Spectroscopy, Cell Culture, PCR, ELISA, Crispr-Cas9 Applications, Transfection, Midi-prep",
+                    "Software: R, MATLAB, ImageJ, MS Office, Google Workspace",
+                    "Hardware: Oscilloscope, Spectrophotometer, PowerLab A/D Converter, EMG/ECG, Soldering",
+                    "Languages: Korean (Fluent), English (Fluent), Chinese (Intermediate)"
+                ],
+                kr: [
+                    "실험 기술: 광 스펙트로스코피(Light Spectroscopy), 세포 배양, PCR, ELISA, CRISPR-Cas9 적용, 형질전환, Midiprep",
+                    "소프트웨어: R, MATLAB, ImageJ, MS Office, Google Workspace",
+                    "하드웨어: 오실로스코프, 분광광도계, PowerLab A/D 컨버터, EMG/ECG, 솔더링(납땜)",
+                    "언어: 한국어 (모국어), 영어 (능통), 중국어 (중급)"
+                ]
+            }
+        };
+
+        let L = 'en';
+        const $ = id => document.getElementById(id);
+        const hm = (id, v) => { const e = $(id); if (e) e.innerHTML = v || ''; };
+        const t = obj => (obj || {})[L] || '';
+
+        function render() {
+            document.documentElement.setAttribute('lang', L === 'kr' ? 'ko' : 'en');
+            
+            // 번역 타이틀 처리
+            const titles = {
+                'label-about': { en: 'About', kr: '소개' },
+                'title-edu': { en: 'Education', kr: '학력' },
+                'title-work': { en: 'Professional Experience', kr: '업무 경험' },
+                'title-research': { en: 'Research Experience', kr: '연구 경험' },
+                'title-proj': { en: 'Project Experience', kr: '프로젝트' },
+                'title-leadership': { en: 'Leadership Experience', kr: '리더십 경험' },
+                'title-skill': { en: 'Technical Skills', kr: '보유 기술' }
+            };
+            Object.entries(titles).forEach(([id, o]) => { if($(id)) $(id).textContent = o[L]; });
+
+            $('name').textContent = t(D.info.name);
+            $('profile-role').textContent = t(D.info.role);
+            $('about-text').innerHTML = t(D.info.about);
+
+            const navs = document.querySelectorAll('.nav-link');
+            navs.forEach(a => { const v = a.getAttribute('data-' + L); if (v) a.textContent = v; });
+
+            hm('education-list', D.education.map(e => `
+                <div class="timeline-item">
+                    <div class="timeline-left"><div class="timeline-period">${e.period}</div></div>
+                    <div class="timeline-right">
+                        <div class="timeline-title">${t(e.school)}</div>
+                        <div class="timeline-sub">${t(e.degree)}</div>
+                        <div class="timeline-desc">${t(e.desc)}</div>
+                    </div>
+                </div>`).join(''));
+
+            hm('work-list', D.work.map(w => `
+                <div class="timeline-item">
+                    <div class="timeline-left"><div class="timeline-period">${w.period}</div></div>
+                    <div class="timeline-right">
+                        <div class="timeline-title">${t(w.role)}</div>
+                        <div class="timeline-sub">${t(w.org)}</div>
+                        <div class="timeline-desc">${t(w.desc)}</div>
+                    </div>
+                </div>`).join(''));
+
+            hm('research-list', D.research.map(r => `
+                <div class="timeline-item">
+                    <div class="timeline-left"><div class="timeline-period">${r.period}</div></div>
+                    <div class="timeline-right">
+                        <div class="timeline-title">${t(r.role)}</div>
+                        <div class="timeline-sub">${t(r.org)}</div>
+                        <div class="timeline-desc">${t(r.desc)}</div>
+                    </div>
+                </div>`).join(''));
+
+            hm('project-list', D.projects.map(p => `
+                <div class="project-entry">
+                    <div class="project-header">
+                        <div style="font-size:10px; color:var(--accent); font-weight:700; text-transform:uppercase; margin-bottom:4px;">${t(p.kicker)}</div>
+                        <div class="project-name">${t(p.name)}</div>
+                    </div>
+                    <div class="project-body"><div class="project-summary">${t(p.summary)}</div></div>
+                </div>`).join(''));
+            
+            hm('leadership-list', D.leadership.map(l => `
+                <div class="timeline-item">
+                    <div class="timeline-left"><div class="timeline-period">${l.period}</div></div>
+                    <div class="timeline-right">
+                        <div class="timeline-title">${t(l.role)}</div>
+                        <div class="timeline-sub">${t(l.org)}</div>
+                        <div class="timeline-desc">${t(l.desc)}</div>
+                    </div>
+                </div>`).join(''));
+
+            hm('skill-list', D.skills[L].map(s => {
+                const i = s.indexOf(':');
+                return `<div class="skill-item"><div class="skill-category">${s.slice(0, i)}</div><div class="skill-content" style="font-size:13.5px; color:var(--ink-light); line-height:1.6;">${s.slice(i + 1)}</div></div>`;
+            }).join(''));
+        }
+
+        $('theme-light').onclick = () => { document.documentElement.setAttribute('data-theme', ''); $('theme-light').classList.add('active'); $('theme-dark').classList.remove('active'); };
+        $('theme-dark').onclick = () => { document.documentElement.setAttribute('data-theme', 'dark'); $('theme-dark').classList.add('active'); $('theme-light').classList.remove('active'); };
+        $('lang-en').onclick = () => { L = 'en'; $('lang-en').classList.add('active'); $('lang-kr').classList.remove('active'); render(); };
+        $('lang-kr').onclick = () => { L = 'kr'; $('lang-kr').classList.add('active'); $('lang-en').classList.remove('active'); render(); };
+
+        render();
+    </script>
+</body>
+</html>
