@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HyunJong Park — Biomedical Engineer</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%232563EB'/><line x1='41' y1='30' x2='59' y2='30' stroke='%23ffffff' stroke-width='5' stroke-linecap='round'/><line x1='48' y1='41' x2='52' y2='41' stroke='%23ffffff' stroke-width='5' stroke-linecap='round'/><line x1='48' y1='59' x2='52' y2='59' stroke='%23ffffff' stroke-width='5' stroke-linecap='round'/><line x1='41' y1='70' x2='59' y2='70' stroke='%23ffffff' stroke-width='5' stroke-linecap='round'/><path d='M 35 20 Q 65 35 50 50 T 35 80' fill='none' stroke='%23ffffff' stroke-width='7' stroke-linecap='round'/><path d='M 65 20 Q 35 35 50 50 T 65 80' fill='none' stroke='%23ffffff' stroke-width='7' stroke-linecap='round'/><circle cx='35' cy='20' r='4' fill='%23ffffff'/><circle cx='65' cy='20' r='4' fill='%23ffffff'/><circle cx='35' cy='80' r='4' fill='%23ffffff'/><circle cx='65' cy='80' r='4' fill='%23ffffff'/></svg>">    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧬</text></svg>">    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -167,8 +167,7 @@
             </div>
             <nav class="sidebar-nav">
                 <a href="#education" class="nav-link" data-en="Education" data-kr="학력 정보">Education</a>
-                <a href="#experience" class="nav-link" data-en="Experience" data-kr="업무 경험">Experience</a>
-                <a href="#research" class="nav-link" data-en="Research" data-kr="연구 경험">Research</a>
+                <a href="#experience" class="nav-link" data-en="Experience" data-kr="경력 및 연구 경험">Experience</a>
                 <a href="#projects" class="nav-link" data-en="Projects" data-kr="프로젝트">Projects</a>
                 <a href="#leadership" class="nav-link" data-en="Leadership" data-kr="리더십">Leadership</a>
                 <a href="#skills" class="nav-link" data-en="Skills" data-kr="보유 기술">Skills</a>
@@ -194,13 +193,8 @@
         </section>
 
         <section id="experience" class="content-section">
-            <div class="section-header"><h2 id="title-work" class="section-title">Professional Experience</h2><div class="section-line"></div></div>
-            <div id="work-list" class="timeline"></div>
-        </section>
-
-        <section id="research" class="content-section">
-            <div class="section-header"><h2 id="title-research" class="section-title">Research Experience</h2><div class="section-line"></div></div>
-            <div id="research-list" class="timeline"></div>
+            <div class="section-header"><h2 id="title-work" class="section-title">Professional & Research Experience</h2><div class="section-line"></div></div>
+            <div id="work-list"></div>
         </section>
 
         <section id="projects" class="content-section">
@@ -328,12 +322,11 @@
         function render() {
             document.documentElement.setAttribute('lang', L === 'kr' ? 'ko' : 'en');
             
-            // 번역 타이틀 처리
+            // 1. 타이틀 변경 (Research 삭제, Work 이름 통합)
             const titles = {
                 'label-about': { en: 'About', kr: '소개' },
                 'title-edu': { en: 'Education', kr: '학력' },
-                'title-work': { en: 'Professional Experience', kr: '업무 경험' },
-                'title-research': { en: 'Research Experience', kr: '연구 경험' },
+                'title-work': { en: 'Professional & Research Experience', kr: '경력 및 연구 경험' },
                 'title-proj': { en: 'Project Experience', kr: '프로젝트' },
                 'title-leadership': { en: 'Leadership Experience', kr: '리더십 경험' },
                 'title-skill': { en: 'Technical Skills', kr: '보유 기술' }
@@ -357,24 +350,16 @@
                     </div>
                 </div>`).join(''));
 
-            hm('work-list', D.work.map(w => `
+            // 2. 업무 경험과 연구 경험 데이터를 하나로 합쳐서 렌더링 (최신순으로 배치)
+            const combinedExperience = [...D.research, ...D.work];
+            hm('work-list', combinedExperience.map(item => `
                 <div class="project-entry">
                     <div class="project-header">
-                        <div style="font-size:10px; color:var(--accent); font-weight:700; text-transform:uppercase; margin-bottom:4px;">${w.period}</div>
-                        <div class="project-name">${t(w.role)}</div>
-                        <div style="font-size:13px; color:var(--ink-faint); margin-top:4px; font-weight:500;">${t(w.org)}</div>
+                        <div style="font-size:10px; color:var(--accent); font-weight:700; text-transform:uppercase; margin-bottom:4px;">${item.period}</div>
+                        <div class="project-name">${t(item.role)}</div>
+                        <div style="font-size:13px; color:var(--ink-faint); margin-top:4px; font-weight:500;">${t(item.org)}</div>
                     </div>
-                    <div class="project-body"><div class="project-summary">${t(w.desc)}</div></div>
-                </div>`).join(''));
-
-            hm('research-list', D.research.map(r => `
-                <div class="project-entry">
-                    <div class="project-header">
-                        <div style="font-size:10px; color:var(--accent); font-weight:700; text-transform:uppercase; margin-bottom:4px;">${r.period}</div>
-                        <div class="project-name">${t(r.role)}</div>
-                        <div style="font-size:13px; color:var(--ink-faint); margin-top:4px; font-weight:500;">${t(r.org)}</div>
-                    </div>
-                    <div class="project-body"><div class="project-summary">${t(r.desc)}</div></div>
+                    <div class="project-body"><div class="project-summary">${t(item.desc)}</div></div>
                 </div>`).join(''));
 
             hm('project-list', D.projects.map(p => `
