@@ -128,8 +128,48 @@
         
         /* ── TAGS ── */
         .tag { font-size: 11.5px; font-weight: 600; color: var(--ink-faint); border: 1px solid var(--border); border-radius: 100px; padding: 4px 12px }
-        
+
+
         @media(max-width:720px) { .sidebar { display: none } .main-content { margin-left: 0 } .timeline-item { grid-template-columns: 1fr } .hero-section, .content-section { padding: 32px 20px } }
+        /* ── FOOTER & HITS BADGE ── */
+        .footer-inner {
+            display: flex;
+            align-items: center;
+            /* 세로 중앙 정렬 */
+            gap: 16px;
+            /* 텍스트와 뱃지 사이의 간격 */
+            flex-wrap: wrap;
+            /* 화면이 좁아지면 자연스럽게 줄바꿈되도록 설정 */
+        }
+        .hits-badge {
+            display: flex;
+            /* img 태그 아래 빈 공간 제거 */
+            transition: opacity 0.2s;
+        }
+
+        .hits-badge:hover {
+            opacity: 0.8;
+        }
+
+        /* 라이트/다크 모드 스위칭 */
+        .hits-dark {
+            display: none;
+        }
+
+        [data-theme="dark"] .hits-light {
+            display: none;
+        }
+
+        [data-theme="dark"] .hits-dark {
+            display: block;
+        }
+        .page-footer {
+            padding: 32px 64px;
+            font-size: 12px;
+            color: var(--ink-faint);
+            opacity: .6;
+            font-family: var(--fm)
+        }
     </style>
 </head>
 
@@ -212,9 +252,20 @@
             <div id="skill-list" class="skill-list"></div>
         </section>
 
-        <footer class="page-footer" style="padding: 40px 64px; font-size: 12px; color: var(--ink-faint);">
-            © 2026 HyunJong Park · Built with passion for Bio-Engineering
+        <footer class="page-footer">
+            <div class="footer-inner">
+                <span> © 2026 HyunJong Park · Built with passion for Bio-Engineering</span>
+
+                <a href="https://hits.sh/hyun-jong-park-01.github.io/" class="hits-badge">
+                    <img class="hits-light" alt="Hits"
+                        src="https://hits.sh/hyun-jong-park-01.github.io.svg?view=today-total&style=for-the-badge&extraCount=1&color=2563EB&labelColor=333333&logo=googlescholar" />
+
+                    <img class="hits-dark" alt="Hits"
+                        src="https://hits.sh/hyun-jong-park-01.github.io.svg?view=today-total&style=for-the-badge&extraCount=1&color=60A5FA&labelColor=181A1B&logo=googlescholar" />
+                </a>
+            </div>
         </footer>
+
     </main>
 
     <script>
